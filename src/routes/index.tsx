@@ -260,21 +260,7 @@ function Index() {
           </div>
 
           <div className="mt-12 space-y-6">
-            <h3 className="text-xs uppercase tracking-widest text-olive mb-2">Proyectos Académicos · Inesdi Barcelona</h3>
-            <div className="grid gap-4 md:grid-cols-2">
-              {PROJECTS.filter(p => filter==="Todos" || p.cat===filter).map(p => (
-                <div key={p.title} className="glass-card rounded-2xl p-6 hover:-translate-y-1 transition-transform">
-                  <div className="flex items-start justify-between gap-4 mb-3">
-                    <h4 className="font-semibold text-base">{p.title}</h4>
-                    <span className="text-xs text-sand shrink-0">{p.year}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
-                  <span className="mt-4 inline-block text-[10px] uppercase tracking-widest text-olive">{p.cat}</span>
-                </div>
-              ))}
-            </div>
-
-            <h3 className="text-xs uppercase tracking-widest text-olive mt-12 mb-2">Experiencia Profesional</h3>
+            <h3 className="text-xs uppercase tracking-widest text-olive mb-2">Experiencia Profesional</h3>
             <div className="relative space-y-6 border-l border-border/60 pl-6 md:pl-8">
               {EXPERIENCE.filter(e => filter==="Todos" || filter==="Marketing & Estrategia").map(e => (
                 <div key={e.company} className="relative glass-card rounded-2xl p-6 md:p-8 hover:-translate-y-1 transition-transform">
@@ -291,6 +277,20 @@ function Index() {
                       </li>
                     ))}
                   </ul>
+                </div>
+              ))}
+            </div>
+
+            <h3 className="text-xs uppercase tracking-widest text-olive mt-12 mb-2">Proyectos Académicos · Inesdi Barcelona</h3>
+            <div className="grid gap-4 md:grid-cols-2">
+              {PROJECTS.filter(p => filter==="Todos" || p.cat===filter).map(p => (
+                <div key={p.title} className="glass-card rounded-2xl p-6 hover:-translate-y-1 transition-transform">
+                  <div className="flex items-start justify-between gap-4 mb-3">
+                    <h4 className="font-semibold text-base">{p.title}</h4>
+                    <span className="text-xs text-sand shrink-0">{p.year}</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
+                  <span className="mt-4 inline-block text-[10px] uppercase tracking-widest text-olive">{p.cat}</span>
                 </div>
               ))}
             </div>
