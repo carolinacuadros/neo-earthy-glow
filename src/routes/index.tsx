@@ -88,12 +88,12 @@ const EDUCATION = [
 
 type MediaItem = {
   title: string; cat: string; role: string; goal: string; ratio: string; stat: string;
-  kind: "video" | "photo"; embed?: string; imageUrl?: string;
+  kind: "video" | "photo"; url?: string; imageUrl?: string;
 };
 const VIDEOS: MediaItem[] = [
-  { kind: "video", title: "Expoconstrucción — Cobertura Audiovisual", cat: "Instagram Reel", role: "Dirección / Edición", goal: "Cobertura audiovisual de la feria Expoconstrucción: entrevistas, ambiente y activaciones de marca.", ratio: "aspect-[9/16]", stat: "Feria Sectorial", embed: "https://www.instagram.com/reel/DKfoPYUR04L/embed/" },
+  { kind: "video", title: "Expoconstrucción — Cobertura Audiovisual", cat: "Instagram Reel", role: "Dirección / Edición", goal: "Cobertura audiovisual de la feria Expoconstrucción: entrevistas, ambiente y activaciones de marca.", ratio: "aspect-[9/16]", stat: "Feria Sectorial", url: "https://www.instagram.com/reel/DKfoPYUR04L/" },
   { kind: "photo", title: "Expocamacol — Feria Internacional", cat: "Fotografía On-Site", role: "Coordinadora General de Stand & Marca", goal: "Coordiné todo el proceso de la feria: participación, cotizaciones, montaje y desmontaje de stand, logística, equipo comercial, merchandising y terceros en otros servicios.", ratio: "aspect-[4/5]", stat: "+54k visitantes", imageUrl: expocamacolPhoto.url },
-  { kind: "video", title: "Contenido versátil — Producto & Sector", cat: "Instagram Reel", role: "Guion / Grabación / Edición", goal: "Reel creado de principio a fin para demostrar que puedo producir contenido de cualquier tipo, producto y sector.", ratio: "aspect-[9/16]", stat: "Producción íntegra", embed: "https://www.instagram.com/reel/DLYoTS9xgYY/embed/" },
+  { kind: "video", title: "Contenido versátil — Producto & Sector", cat: "Instagram Reel", role: "Guion / Grabación / Edición", goal: "Reel creado de principio a fin para demostrar que puedo producir contenido de cualquier tipo, producto y sector.", ratio: "aspect-[9/16]", stat: "Producción íntegra", url: "https://www.instagram.com/reel/DLYoTS9xgYY/" },
 ];
 
 /* ---------------- HOOKS ---------------- */
