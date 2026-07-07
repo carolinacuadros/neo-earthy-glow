@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { useQueries } from "@tanstack/react-query";
 import {
   Mail, Linkedin, Phone, MapPin, ArrowRight, Printer, Sparkles, X, Play,
-  TrendingUp, Bot, Calendar, GraduationCap, Download, Menu, Camera,
+  TrendingUp, Bot, Calendar, GraduationCap, Download, Menu, Camera, ExternalLink,
 } from "lucide-react";
 import carolinaPortrait from "@/assets/carolina-portrait.png.asset.json";
 import expocamacolPhoto from "@/assets/expocamacol-carolina.jpeg.asset.json";
+import { getInstagramThumbnail } from "@/lib/instagram.functions";
 
 export const Route = createFileRoute("/")({ component: Index });
 
@@ -15,7 +17,7 @@ const SKILLS = [
   { title: "Estrategia B2B2C & Growth", tags: ["Inbound Marketing", "Social Selling", "Email Marketing", "WhatsApp Business", "Customer Journey Mapping"] },
   { title: "Paid Media & SEO", tags: ["Meta Ads", "Google Ads", "SEO Técnico", "Google Analytics", "Keyword Research"] },
   { title: "Automatización & IA (Hands-On)", tags: ["n8n", "Chatbots de IA", "Prompt Engineering", "WhatsApp Business API", "Lead Scoring", "OpenAI API"] },
-  { title: "Desarrollo, Análisis & Herramientas", tags: ["Lovable", "GitHub", "Python", "Power BI", "WordPress", "Canva", "CapCut", "Notion"] },
+  { title: "Desarrollo, Análisis & Herramientas", tags: ["Lovable", "GitHub", "Python", "Google Colab", "Power BI", "WordPress", "Canva", "CapCut", "Notion"] },
 ];
 
 type Cat = "Marketing & Estrategia" | "Automatización, IA & Data";
@@ -86,12 +88,12 @@ const EDUCATION = [
 
 type MediaItem = {
   title: string; cat: string; role: string; goal: string; ratio: string; stat: string;
-  kind: "video" | "photo"; embed?: string; imageUrl?: string;
+  kind: "video" | "photo"; url?: string; imageUrl?: string;
 };
 const VIDEOS: MediaItem[] = [
-  { kind: "video", title: "Expoconstrucción — Cobertura Audiovisual", cat: "Instagram Reel", role: "Dirección / Edición", goal: "Cobertura audiovisual de la feria Expoconstrucción: entrevistas, ambiente y activaciones de marca.", ratio: "aspect-[9/16]", stat: "Feria Sectorial", embed: "https://www.instagram.com/reel/DKfoPYUR04L/embed/" },
+  { kind: "video", title: "Expoconstrucción — Cobertura Audiovisual", cat: "Instagram Reel", role: "Dirección / Edición", goal: "Cobertura audiovisual de la feria Expoconstrucción: entrevistas, ambiente y activaciones de marca.", ratio: "aspect-[9/16]", stat: "Feria Sectorial", url: "https://www.instagram.com/reel/DKfoPYUR04L/" },
   { kind: "photo", title: "Expocamacol — Feria Internacional", cat: "Fotografía On-Site", role: "Coordinadora General de Stand & Marca", goal: "Coordiné todo el proceso de la feria: participación, cotizaciones, montaje y desmontaje de stand, logística, equipo comercial, merchandising y terceros en otros servicios.", ratio: "aspect-[4/5]", stat: "+54k visitantes", imageUrl: expocamacolPhoto.url },
-  { kind: "video", title: "Contenido versátil — Producto & Sector", cat: "Instagram Reel", role: "Guion / Grabación / Edición", goal: "Reel creado de principio a fin para demostrar que puedo producir contenido de cualquier tipo, producto y sector.", ratio: "aspect-[9/16]", stat: "Producción íntegra", embed: "https://www.instagram.com/reel/DLYoTS9xgYY/embed/" },
+  { kind: "video", title: "Contenido versátil — Producto & Sector", cat: "Instagram Reel", role: "Guion / Grabación / Edición", goal: "Reel creado de principio a fin para demostrar que puedo producir contenido de cualquier tipo, producto y sector.", ratio: "aspect-[9/16]", stat: "Producción íntegra", url: "https://www.instagram.com/reel/DLYoTS9xgYY/" },
 ];
 
 /* ---------------- HOOKS ---------------- */
@@ -131,8 +133,19 @@ function useInView<T extends HTMLElement>() {
 function Index() {
   const [isPrintMode, setPrintMode] = useState(false);
   const [filter, setFilter] = useState<"Todos" | Cat>("Todos");
-  const [openVideo, setOpenVideo] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const videoItems = VIDEOS.filter((v) => v.kind === "video" && v.url);
+  const thumbnailQueries = useQueries({
+    queries: videoItems.map((v) => ({
+      queryKey: ["ig-thumb", v.url],
+      queryFn: () => getInstagramThumbnail({ data: { url: v.url! } }),
+      staleTime: 1000 * 60 * 30,
+    })),
+  });
+  const thumbByUrl = new Map(
+    videoItems.map((v, i) => [v.url, thumbnailQueries[i].data?.thumbnailUrl])
+  );
 
   useEffect(() => {
     document.documentElement.classList.toggle("print-mode", isPrintMode);
@@ -305,16 +318,13 @@ function Index() {
           <SectionHeading eyebrow="05 · Multimedia" title="Showroom audiovisual" />
           <p className="mt-4 text-muted-foreground max-w-2xl">Dirección, guion y edición — reels de obra, cobertura de ferias y fotografía on-site.</p>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {VIDEOS.map((v, i) => {
+            {VIDEOS.map((v) => {
               const isPhoto = v.kind === "photo";
-              const clickable = isPhoto ? false : Boolean(v.embed);
-              return (
-                <button
-                  key={v.title}
-                  onClick={() => clickable && setOpenVideo(i)}
-                  disabled={!clickable}
-                  className={`group text-left glass-card rounded-3xl overflow-hidden transition-all ${clickable ? "hover:-translate-y-2 cursor-pointer" : "cursor-default"}`}
-                >
+              const thumbUrl = !isPhoto && v.url ? thumbByUrl.get(v.url) : undefined;
+              const isLoadingThumb = !isPhoto && v.url && thumbUrl === undefined;
+
+              const media = (
+                <>
                   <div className={`relative ${v.ratio} bg-gradient-to-br from-muted to-card overflow-hidden ${isPhoto ? "p-3" : ""}`}>
                     {isPhoto ? (
                       <div className="relative w-full h-full rounded-2xl border border-sand/30 overflow-hidden">
@@ -327,13 +337,31 @@ function Index() {
                         <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"/>
                       </div>
                     ) : (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className={`w-16 h-16 rounded-full bg-sand/90 flex items-center justify-center transition-transform ${clickable ? "group-hover:scale-110" : "opacity-60"}`}>
-                          <Play className="w-6 h-6 text-background ml-1" fill="currentColor"/>
+                      <>
+                        {thumbUrl ? (
+                          <img
+                            src={thumbUrl}
+                            alt={`Portada de ${v.title}`}
+                            className="absolute inset-0 w-full h-full object-cover"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 bg-gradient-to-br from-muted to-card animate-pulse" />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent"/>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-16 h-16 rounded-full bg-sand/90 flex items-center justify-center transition-transform group-hover:scale-110 shadow-lg">
+                            <Play className="w-6 h-6 text-background ml-1" fill="currentColor"/>
+                          </div>
                         </div>
-                      </div>
+                      </>
                     )}
                     <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-background/80 backdrop-blur text-[10px] uppercase tracking-widest text-sand">{v.stat}</div>
+                    {!isPhoto && (
+                      <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-background/80 backdrop-blur text-[10px] uppercase tracking-widest text-olive flex items-center gap-1">
+                        <ExternalLink className="w-3 h-3" /> Instagram
+                      </div>
+                    )}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-background/85 backdrop-blur transition-opacity p-6 flex flex-col justify-end pointer-events-none">
                       <span className="text-xs text-olive uppercase tracking-widest">{v.cat}</span>
                       <p className="mt-1 text-sm text-sand">{v.role}</p>
@@ -341,10 +369,31 @@ function Index() {
                     </div>
                   </div>
                   <div className="p-5">
-                    <h4 className="font-semibold">{v.title}</h4>
-                    <p className="text-xs text-muted-foreground mt-1">{v.cat}</p>
+                    <h4 className="font-semibold flex items-center gap-2">
+                      {v.title}
+                      {!isPhoto && <ExternalLink className="w-3 h-3 text-sand opacity-0 group-hover:opacity-100 transition-opacity" />}
+                    </h4>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {isLoadingThumb ? "Cargando portada…" : v.cat}
+                    </p>
                   </div>
-                </button>
+                </>
+              );
+
+              return isPhoto ? (
+                <div key={v.title} className="group text-left glass-card rounded-3xl overflow-hidden transition-all cursor-default">
+                  {media}
+                </div>
+              ) : (
+                <a
+                  key={v.title}
+                  href={v.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group text-left glass-card rounded-3xl overflow-hidden transition-all hover:-translate-y-2 cursor-pointer"
+                >
+                  {media}
+                </a>
               );
             })}
           </div>
@@ -393,21 +442,6 @@ function Index() {
         className="no-print fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 px-5 py-3 rounded-full bg-sand text-background font-medium shadow-2xl hover:scale-105 transition-transform">
         <Printer className="w-4 h-4"/> <span className="hidden sm:inline">Modo Ejecutivo ATS / Print</span>
       </button>
-
-      {openVideo !== null && (
-        <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-lg flex items-center justify-center p-4 animate-fade-in" onClick={()=>setOpenVideo(null)}>
-          <div className={`relative w-full ${VIDEOS[openVideo].ratio === "aspect-[9/16]" ? "max-w-md" : "max-w-4xl"}`} onClick={e=>e.stopPropagation()}>
-            <button onClick={()=>setOpenVideo(null)} className="absolute -top-12 right-0 text-sand hover:text-foreground"><X className="w-6 h-6"/></button>
-            <div className={`${VIDEOS[openVideo].ratio} rounded-2xl overflow-hidden border border-border bg-black`}>
-              <iframe src={VIDEOS[openVideo].embed} title={VIDEOS[openVideo].title} className="w-full h-full" allow="autoplay; encrypted-media" allowFullScreen/>
-            </div>
-            <div className="mt-4 flex items-baseline justify-between">
-              <h4 className="text-lg font-semibold">{VIDEOS[openVideo].title}</h4>
-              <span className="text-xs text-sand">{VIDEOS[openVideo].cat}</span>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
