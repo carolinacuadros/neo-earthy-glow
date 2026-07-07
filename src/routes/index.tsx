@@ -2,8 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
   Mail, Linkedin, Phone, MapPin, ArrowRight, Printer, Sparkles, X, Play,
-  TrendingUp, Bot, Calendar, GraduationCap, Download, Menu,
+  TrendingUp, Bot, Calendar, GraduationCap, Download, Menu, Camera,
 } from "lucide-react";
+import carolinaPortrait from "@/assets/carolina-portrait.png.asset.json";
 
 export const Route = createFileRoute("/")({ component: Index });
 
