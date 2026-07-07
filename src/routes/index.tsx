@@ -396,9 +396,9 @@ function Index() {
 
       {openVideo !== null && (
         <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-lg flex items-center justify-center p-4 animate-fade-in" onClick={()=>setOpenVideo(null)}>
-          <div className="relative w-full max-w-4xl" onClick={e=>e.stopPropagation()}>
+          <div className={`relative w-full ${VIDEOS[openVideo].ratio === "aspect-[9/16]" ? "max-w-md" : "max-w-4xl"}`} onClick={e=>e.stopPropagation()}>
             <button onClick={()=>setOpenVideo(null)} className="absolute -top-12 right-0 text-sand hover:text-foreground"><X className="w-6 h-6"/></button>
-            <div className="aspect-video rounded-2xl overflow-hidden border border-border">
+            <div className={`${VIDEOS[openVideo].ratio} rounded-2xl overflow-hidden border border-border bg-black`}>
               <iframe src={VIDEOS[openVideo].embed} title={VIDEOS[openVideo].title} className="w-full h-full" allow="autoplay; encrypted-media" allowFullScreen/>
             </div>
             <div className="mt-4 flex items-baseline justify-between">
