@@ -179,41 +179,41 @@ function Index() {
           <div className="absolute top-20 left-10 w-96 h-96 rounded-full blur-3xl" style={{background:"radial-gradient(circle,var(--olive),transparent 70%)"}}/>
           <div className="absolute bottom-0 right-10 w-[30rem] h-[30rem] rounded-full blur-3xl" style={{background:"radial-gradient(circle,var(--sand),transparent 70%)"}}/>
         </div>
-        <div className="mx-auto max-w-6xl grid gap-10 md:gap-14 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
-          <div className="min-w-0 order-2 md:order-1">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-olive/30 bg-olive/5 text-olive text-xs font-medium mb-8 animate-fade-in">
+        <div className="mx-auto max-w-6xl grid gap-5 sm:gap-8 md:gap-12 grid-cols-[minmax(0,1fr)_auto] items-center">
+          <div className="min-w-0">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-olive/30 bg-olive/5 text-olive text-xs font-medium mb-6 md:mb-8 animate-fade-in">
               <span className="w-2 h-2 rounded-full bg-olive animate-pulse"/>
               Disponible para Proyectos · Barcelona
             </div>
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-extrabold leading-[0.95] tracking-tight animate-fade-in">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold leading-[0.95] tracking-tight animate-fade-in">
               ¡Hola, soy<br/>
               <span className="text-gradient-warm">Carolina Cuadros!</span>
             </h1>
-            <p className="mt-8 max-w-3xl text-base md:text-xl text-muted-foreground leading-relaxed">
+            <p className="mt-6 md:mt-8 max-w-3xl text-sm sm:text-base md:text-xl text-muted-foreground leading-relaxed">
               <span className="text-foreground font-medium">Marketing Digital & Comunicación Corporativa.</span> Conecto marcas
               con audiencias a través de la estrategia digital B2B2C y optimizo el futuro de la comunicación integrando
               <span className="text-sand"> Inteligencia Artificial</span>,
               <span className="text-olive"> Automatización de Procesos (no-code)</span> y
               <span className="text-sand"> Análisis de Datos</span>.
             </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <a href="#impacto" className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-olive text-background font-medium hover:scale-[1.03] transition-transform">
+            <div className="mt-8 md:mt-10 flex flex-wrap gap-3 md:gap-4">
+              <a href="#impacto" className="group inline-flex items-center gap-2 px-5 md:px-6 py-3 md:py-3.5 rounded-full bg-olive text-background font-medium hover:scale-[1.03] transition-transform text-sm md:text-base">
                 Explorar mi trayectoria
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform"/>
               </a>
-              <button onClick={() => setPrintMode(true)} className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-sand/40 text-sand hover:bg-sand hover:text-background transition-all font-medium">
+              <button onClick={() => setPrintMode(true)} className="inline-flex items-center gap-2 px-5 md:px-6 py-3 md:py-3.5 rounded-full border border-sand/40 text-sand hover:bg-sand hover:text-background transition-all font-medium text-sm md:text-base">
                 <Printer className="w-4 h-4"/> Modo Ejecutivo (ATS / PDF)
               </button>
             </div>
           </div>
-          <div className="order-1 md:order-2 flex justify-center md:justify-end animate-fade-in">
+          <div className="flex justify-center md:justify-end animate-fade-in">
             <div className="relative">
-              <div className="absolute -inset-6 rounded-[2rem] blur-3xl opacity-30" style={{background:"radial-gradient(circle,var(--sand),transparent 70%)"}}/>
+              <div className="absolute -inset-4 md:-inset-6 rounded-[2rem] blur-3xl opacity-30" style={{background:"radial-gradient(circle,var(--sand),transparent 70%)"}}/>
               <div className="relative overflow-hidden rounded-2xl border border-sand/30 shadow-2xl bg-gradient-to-br from-muted/40 to-card/40 backdrop-blur">
                 <img
                   src={carolinaPortrait.url}
                   alt="Retrato de Carolina Cuadros Bustamante"
-                  className="h-[360px] sm:h-[420px] md:h-[500px] w-auto object-contain object-top"
+                  className="h-[190px] sm:h-[260px] md:h-[380px] lg:h-[500px] w-auto object-contain object-top"
                   loading="eager"
                 />
               </div>
