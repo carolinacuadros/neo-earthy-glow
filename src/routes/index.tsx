@@ -318,16 +318,13 @@ function Index() {
           <SectionHeading eyebrow="05 · Multimedia" title="Showroom audiovisual" />
           <p className="mt-4 text-muted-foreground max-w-2xl">Dirección, guion y edición — reels de obra, cobertura de ferias y fotografía on-site.</p>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {VIDEOS.map((v, i) => {
+            {VIDEOS.map((v) => {
               const isPhoto = v.kind === "photo";
-              const clickable = isPhoto ? false : Boolean(v.embed);
-              return (
-                <button
-                  key={v.title}
-                  onClick={() => clickable && setOpenVideo(i)}
-                  disabled={!clickable}
-                  className={`group text-left glass-card rounded-3xl overflow-hidden transition-all ${clickable ? "hover:-translate-y-2 cursor-pointer" : "cursor-default"}`}
-                >
+              const thumbUrl = !isPhoto && v.url ? thumbByUrl.get(v.url) : undefined;
+              const isLoadingThumb = !isPhoto && v.url && thumbUrl === undefined;
+
+              const media = (
+                <>
                   <div className={`relative ${v.ratio} bg-gradient-to-br from-muted to-card overflow-hidden ${isPhoto ? "p-3" : ""}`}>
                     {isPhoto ? (
                       <div className="relative w-full h-full rounded-2xl border border-sand/30 overflow-hidden">
@@ -340,13 +337,31 @@ function Index() {
                         <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"/>
                       </div>
                     ) : (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className={`w-16 h-16 rounded-full bg-sand/90 flex items-center justify-center transition-transform ${clickable ? "group-hover:scale-110" : "opacity-60"}`}>
-                          <Play className="w-6 h-6 text-background ml-1" fill="currentColor"/>
+                      <>
+                        {thumbUrl ? (
+                          <img
+                            src={thumbUrl}
+                            alt={`Portada de ${v.title}`}
+                            className="absolute inset-0 w-full h-full object-cover"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 bg-gradient-to-br from-muted to-card animate-pulse" />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent"/>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-16 h-16 rounded-full bg-sand/90 flex items-center justify-center transition-transform group-hover:scale-110 shadow-lg">
+                            <Play className="w-6 h-6 text-background ml-1" fill="currentColor"/>
+                          </div>
                         </div>
-                      </div>
+                      </>
                     )}
                     <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-background/80 backdrop-blur text-[10px] uppercase tracking-widest text-sand">{v.stat}</div>
+                    {!isPhoto && (
+                      <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-background/80 backdrop-blur text-[10px] uppercase tracking-widest text-olive flex items-center gap-1">
+                        <ExternalLink className="w-3 h-3" /> Instagram
+                      </div>
+                    )}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-background/85 backdrop-blur transition-opacity p-6 flex flex-col justify-end pointer-events-none">
                       <span className="text-xs text-olive uppercase tracking-widest">{v.cat}</span>
                       <p className="mt-1 text-sm text-sand">{v.role}</p>
@@ -354,10 +369,31 @@ function Index() {
                     </div>
                   </div>
                   <div className="p-5">
-                    <h4 className="font-semibold">{v.title}</h4>
-                    <p className="text-xs text-muted-foreground mt-1">{v.cat}</p>
+                    <h4 className="font-semibold flex items-center gap-2">
+                      {v.title}
+                      {!isPhoto && <ExternalLink className="w-3 h-3 text-sand opacity-0 group-hover:opacity-100 transition-opacity" />}
+                    </h4>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {isLoadingThumb ? "Cargando portada…" : v.cat}
+                    </p>
                   </div>
-                </button>
+                </>
+              );
+
+              return isPhoto ? (
+                <div key={v.title} className="group text-left glass-card rounded-3xl overflow-hidden transition-all cursor-default">
+                  {media}
+                </div>
+              ) : (
+                <a
+                  key={v.title}
+                  href={v.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group text-left glass-card rounded-3xl overflow-hidden transition-all hover:-translate-y-2 cursor-pointer"
+                >
+                  {media}
+                </a>
               );
             })}
           </div>
