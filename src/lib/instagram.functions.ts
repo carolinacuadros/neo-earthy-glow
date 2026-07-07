@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 export const getInstagramThumbnail = createServerFn({ method: "GET" })
-  .inputValidator((data) =>
+  .validator((data) =>
     z.object({ url: z.string().url() }).parse(data)
   )
   .handler(async ({ data }) => {
