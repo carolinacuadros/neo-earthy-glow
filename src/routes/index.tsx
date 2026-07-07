@@ -317,11 +317,14 @@ function Index() {
                 >
                   <div className={`relative ${v.ratio} bg-gradient-to-br from-muted to-card overflow-hidden ${isPhoto ? "p-3" : ""}`}>
                     {isPhoto ? (
-                      <div className="relative w-full h-full rounded-2xl border border-sand/30 bg-background/40 flex flex-col items-center justify-center overflow-hidden">
-                        <div className="absolute inset-3 border border-dashed border-sand/25 rounded-xl pointer-events-none"/>
-                        <Camera className="w-10 h-10 text-sand/80"/>
-                        <p className="mt-3 text-xs uppercase tracking-widest text-olive">Espacio reservado</p>
-                        <p className="mt-1 text-xs text-muted-foreground px-6 text-center">Foto de Expocamacol — próximamente</p>
+                      <div className="relative w-full h-full rounded-2xl border border-sand/30 overflow-hidden">
+                        <img
+                          src={v.imageUrl}
+                          alt={v.title}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"/>
                       </div>
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center">
