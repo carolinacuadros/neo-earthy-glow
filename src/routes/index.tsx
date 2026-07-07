@@ -89,9 +89,9 @@ type MediaItem = {
   kind: "video" | "photo"; embed?: string; imageUrl?: string;
 };
 const VIDEOS: MediaItem[] = [
-  { kind: "video", title: "Registro de obra & Testimoniales", cat: "Instagram Reel", role: "Directora / Guion", goal: "Producción íntegra en obra con permisos y entrevistas a usuarios finales.", ratio: "aspect-[9/16]", stat: "+1.2M views", embed: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-  { kind: "photo", title: "Expocamacol — Feria Internacional", cat: "Fotografía On-Site", role: "Coordinadora de Stand & Marca", goal: "Gestión integral de stand y logística de marca en la feria internacional con más de 54k visitantes.", ratio: "aspect-[4/5]", stat: "+54k visitantes" },
-  { kind: "video", title: "Expoconstrucción — Cobertura Audiovisual", cat: "YouTube / Reel", role: "Dirección / Edición", goal: "Cobertura audiovisual de la feria Expoconstrucción: entrevistas, ambiente y activaciones de marca.", ratio: "aspect-video", stat: "Feria Sectorial", embed: "" },
+  { kind: "video", title: "Expoconstrucción — Cobertura Audiovisual", cat: "Instagram Reel", role: "Dirección / Edición", goal: "Cobertura audiovisual de la feria Expoconstrucción: entrevistas, ambiente y activaciones de marca.", ratio: "aspect-[9/16]", stat: "Feria Sectorial", embed: "https://www.instagram.com/reel/DKfoPYUR04L/embed/" },
+  { kind: "photo", title: "Expocamacol — Feria Internacional", cat: "Fotografía On-Site", role: "Coordinadora General de Stand & Marca", goal: "Coordiné todo el proceso de la feria: participación, cotizaciones, montaje y desmontaje de stand, logística, equipo comercial, merchandising y terceros en otros servicios.", ratio: "aspect-[4/5]", stat: "+54k visitantes", imageUrl: expocamacolPhoto.url },
+  { kind: "video", title: "Contenido versátil — Producto & Sector", cat: "Instagram Reel", role: "Guion / Grabación / Edición", goal: "Reel creado de principio a fin para demostrar que puedo producir contenido de cualquier tipo, producto y sector.", ratio: "aspect-[9/16]", stat: "Producción íntegra", embed: "https://www.instagram.com/reel/DLYoTS9xgYY/embed/" },
 ];
 
 /* ---------------- HOOKS ---------------- */
