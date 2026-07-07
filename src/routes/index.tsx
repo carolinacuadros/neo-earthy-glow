@@ -133,8 +133,19 @@ function useInView<T extends HTMLElement>() {
 function Index() {
   const [isPrintMode, setPrintMode] = useState(false);
   const [filter, setFilter] = useState<"Todos" | Cat>("Todos");
-  const [openVideo, setOpenVideo] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const videoItems = VIDEOS.filter((v) => v.kind === "video" && v.url);
+  const thumbnailQueries = useQueries({
+    queries: videoItems.map((v) => ({
+      queryKey: ["ig-thumb", v.url],
+      queryFn: () => getInstagramThumbnail({ data: { url: v.url! } }),
+      staleTime: 1000 * 60 * 30,
+    })),
+  });
+  const thumbByUrl = new Map(
+    videoItems.map((v, i) => [v.url, thumbnailQueries[i].data?.thumbnailUrl])
+  );
 
   useEffect(() => {
     document.documentElement.classList.toggle("print-mode", isPrintMode);
