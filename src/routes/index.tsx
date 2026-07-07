@@ -302,30 +302,52 @@ function Index() {
       <section id="showroom" className="py-24 px-6">
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="05 · Multimedia" title="Showroom audiovisual" />
-          <p className="mt-4 text-muted-foreground max-w-2xl">Dirección, guion y edición de contenido — de reels de obra a podcasts corporativos.</p>
+          <p className="mt-4 text-muted-foreground max-w-2xl">Dirección, guion y edición — reels de obra, cobertura de ferias y fotografía on-site.</p>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {VIDEOS.map((v, i) => (
-              <button key={v.title} onClick={() => setOpenVideo(i)}
-                className="group text-left glass-card rounded-3xl overflow-hidden hover:-translate-y-2 transition-all">
-                <div className={`relative ${v.ratio} bg-gradient-to-br from-muted to-card overflow-hidden`}>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-sand/90 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Play className="w-6 h-6 text-background ml-1" fill="currentColor"/>
+            {VIDEOS.map((v, i) => {
+              const isPhoto = v.kind === "photo";
+              const clickable = isPhoto ? false : Boolean(v.embed);
+              return (
+                <button
+                  key={v.title}
+                  onClick={() => clickable && setOpenVideo(i)}
+                  disabled={!clickable}
+                  className={`group text-left glass-card rounded-3xl overflow-hidden transition-all ${clickable ? "hover:-translate-y-2 cursor-pointer" : "cursor-default"}`}
+                >
+                  <div className={`relative ${v.ratio} bg-gradient-to-br from-muted to-card overflow-hidden ${isPhoto ? "p-3" : ""}`}>
+                    {isPhoto ? (
+                      <div className="relative w-full h-full rounded-2xl border border-sand/30 bg-background/40 flex flex-col items-center justify-center overflow-hidden">
+                        <div className="absolute inset-3 border border-dashed border-sand/25 rounded-xl pointer-events-none"/>
+                        <Camera className="w-10 h-10 text-sand/80"/>
+                        <p className="mt-3 text-xs uppercase tracking-widest text-olive">Espacio reservado</p>
+                        <p className="mt-1 text-xs text-muted-foreground px-6 text-center">Foto de Expocamacol — próximamente</p>
+                      </div>
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className={`w-16 h-16 rounded-full bg-sand/90 flex items-center justify-center transition-transform ${clickable ? "group-hover:scale-110" : "opacity-60"}`}>
+                          <Play className="w-6 h-6 text-background ml-1" fill="currentColor"/>
+                        </div>
+                        {!v.embed && (
+                          <span className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-widest text-muted-foreground bg-background/70 px-3 py-1 rounded-full backdrop-blur">
+                            Reproductor listo · pega el enlace
+                          </span>
+                        )}
+                      </div>
+                    )}
+                    <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-background/80 backdrop-blur text-[10px] uppercase tracking-widest text-sand">{v.stat}</div>
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-background/85 backdrop-blur transition-opacity p-6 flex flex-col justify-end pointer-events-none">
+                      <span className="text-xs text-olive uppercase tracking-widest">{v.cat}</span>
+                      <p className="mt-1 text-sm text-sand">{v.role}</p>
+                      <p className="mt-3 text-xs text-muted-foreground">{v.goal}</p>
                     </div>
                   </div>
-                  <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-background/80 backdrop-blur text-[10px] uppercase tracking-widest text-sand">{v.stat}</div>
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-background/85 backdrop-blur transition-opacity p-6 flex flex-col justify-end">
-                    <span className="text-xs text-olive uppercase tracking-widest">{v.cat}</span>
-                    <p className="mt-1 text-sm text-sand">{v.role}</p>
-                    <p className="mt-3 text-xs text-muted-foreground">{v.goal}</p>
+                  <div className="p-5">
+                    <h4 className="font-semibold">{v.title}</h4>
+                    <p className="text-xs text-muted-foreground mt-1">{v.cat}</p>
                   </div>
-                </div>
-                <div className="p-5">
-                  <h4 className="font-semibold">{v.title}</h4>
-                  <p className="text-xs text-muted-foreground mt-1">{v.cat}</p>
-                </div>
-              </button>
-            ))}
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
