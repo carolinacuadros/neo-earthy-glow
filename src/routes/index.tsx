@@ -17,7 +17,7 @@ const SKILLS = [
   { title: "Estrategia B2B2C & Growth", tags: ["Inbound Marketing", "Social Selling", "Email Marketing", "WhatsApp Business", "Customer Journey Mapping"] },
   { title: "Paid Media & SEO", tags: ["Meta Ads", "Google Ads", "SEO Técnico", "Google Analytics", "Keyword Research"] },
   { title: "Automatización & IA (Hands-On)", tags: ["n8n", "Chatbots de IA", "Prompt Engineering", "WhatsApp Business API", "Lead Scoring", "OpenAI API"] },
-  { title: "Desarrollo, Análisis & Herramientas", tags: ["Lovable", "GitHub", "Python", "Power BI", "WordPress", "Canva", "CapCut", "Notion"] },
+  { title: "Desarrollo, Análisis & Herramientas", tags: ["Lovable", "GitHub", "Python", "Google Colab", "Power BI", "WordPress", "Canva", "CapCut", "Notion"] },
 ];
 
 type Cat = "Marketing & Estrategia" | "Automatización, IA & Data";
