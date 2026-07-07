@@ -331,11 +331,6 @@ function Index() {
                         <div className={`w-16 h-16 rounded-full bg-sand/90 flex items-center justify-center transition-transform ${clickable ? "group-hover:scale-110" : "opacity-60"}`}>
                           <Play className="w-6 h-6 text-background ml-1" fill="currentColor"/>
                         </div>
-                        {!v.embed && (
-                          <span className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-widest text-muted-foreground bg-background/70 px-3 py-1 rounded-full backdrop-blur">
-                            Reproductor listo · pega el enlace
-                          </span>
-                        )}
                       </div>
                     )}
                     <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-background/80 backdrop-blur text-[10px] uppercase tracking-widest text-sand">{v.stat}</div>
