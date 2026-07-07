@@ -22,23 +22,15 @@ export const getInstagramThumbnail = createServerFn({ method: "GET" })
 
     const html = await res.text();
 
-    // Try the standard og:image meta tag first.
-    const ogMatch = html.match(
+    const match = html.match(
       /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["'][^>]*>/i
     );
 
-    // Fallback: search for the first high-resolution image URL in embedded JSON.
-    const jsonMatch = html.match(
-      /"display_url"\s*:\s*"(https?:\\/\\/[^"]+)"/i
-    );
-
-    const rawUrl = ogMatch?.[1] ?? jsonMatch?.[1]?.replace(/\\\//g, "/");
-
-    if (!rawUrl) {
+    if (!match?.[1]) {
       throw new Error("No se encontró la imagen de portada");
     }
 
     return {
-      thumbnailUrl: rawUrl.replace(/&amp;/g, "&"),
+      thumbnailUrl: match[1].replace(/&amp;/g, "&"),
     };
   });
