@@ -5,6 +5,7 @@ import {
   TrendingUp, Bot, Calendar, GraduationCap, Download, Menu, Camera,
 } from "lucide-react";
 import carolinaPortrait from "@/assets/carolina-portrait.png.asset.json";
+import expocamacolPhoto from "@/assets/expocamacol-carolina.jpeg.asset.json";
 
 export const Route = createFileRoute("/")({ component: Index });
 
