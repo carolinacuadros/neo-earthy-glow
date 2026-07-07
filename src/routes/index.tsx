@@ -208,12 +208,12 @@ function Index() {
           </div>
           <div className="order-1 md:order-2 flex justify-center md:justify-end animate-fade-in">
             <div className="relative">
-              <div className="absolute -inset-4 rounded-full blur-3xl opacity-40" style={{background:"radial-gradient(circle,var(--sand),transparent 70%)"}}/>
-              <div className="relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full overflow-hidden border border-sand/40 shadow-2xl bg-gradient-to-br from-muted/60 to-card/60 backdrop-blur">
+              <div className="absolute -inset-6 rounded-[2rem] blur-3xl opacity-30" style={{background:"radial-gradient(circle,var(--sand),transparent 70%)"}}/>
+              <div className="relative overflow-hidden rounded-2xl border border-sand/30 shadow-2xl bg-gradient-to-br from-muted/40 to-card/40 backdrop-blur">
                 <img
                   src={carolinaPortrait.url}
                   alt="Retrato de Carolina Cuadros Bustamante"
-                  className="w-full h-full object-cover object-top"
+                  className="h-[360px] sm:h-[420px] md:h-[500px] w-auto object-contain object-top"
                   loading="eager"
                 />
               </div>
