@@ -2,8 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
   Mail, Linkedin, Phone, MapPin, ArrowRight, Printer, Sparkles, X, Play,
-  TrendingUp, Bot, Calendar, GraduationCap, Download, Menu,
+  TrendingUp, Bot, Calendar, GraduationCap, Download, Menu, Camera,
 } from "lucide-react";
+import carolinaPortrait from "@/assets/carolina-portrait.png.asset.json";
 
 export const Route = createFileRoute("/")({ component: Index });
 
@@ -82,10 +83,14 @@ const EDUCATION = [
   { title: "Técnico en Diseño e Integración de Multimedia", place: "SENA, Colombia", year: "2015 — 2016" },
 ];
 
-const VIDEOS = [
-  { title: "Registro de obra & Testimoniales", cat: "Instagram Reel", role: "Directora / Guion", goal: "Producción íntegra en obra con permisos y entrevistas a usuarios finales.", ratio: "aspect-[9/16]", stat: "+1.2M views", embed: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-  { title: "Lanzamiento Nueva Línea Importada", cat: "YouTube Podcast", role: "Dirección / Guion", goal: "Podcast corporativo y cobertura del lanzamiento de producto.", ratio: "aspect-video", stat: "YouTube Podcast", embed: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-  { title: "Behind the Scenes — Expocamacol", cat: "TikTok / Reel", role: "Editora / On-site", goal: "Cobertura y logística dinámica de marca in-situ en la feria internacional.", ratio: "aspect-[9/16]", stat: "On-Site Reel", embed: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+type MediaItem = {
+  title: string; cat: string; role: string; goal: string; ratio: string; stat: string;
+  kind: "video" | "photo"; embed?: string; imageUrl?: string;
+};
+const VIDEOS: MediaItem[] = [
+  { kind: "video", title: "Registro de obra & Testimoniales", cat: "Instagram Reel", role: "Directora / Guion", goal: "Producción íntegra en obra con permisos y entrevistas a usuarios finales.", ratio: "aspect-[9/16]", stat: "+1.2M views", embed: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+  { kind: "photo", title: "Expocamacol — Feria Internacional", cat: "Fotografía On-Site", role: "Coordinadora de Stand & Marca", goal: "Gestión integral de stand y logística de marca en la feria internacional con más de 54k visitantes.", ratio: "aspect-[4/5]", stat: "+54k visitantes" },
+  { kind: "video", title: "Expoconstrucción — Cobertura Audiovisual", cat: "YouTube / Reel", role: "Dirección / Edición", goal: "Cobertura audiovisual de la feria Expoconstrucción: entrevistas, ambiente y activaciones de marca.", ratio: "aspect-video", stat: "Feria Sectorial", embed: "" },
 ];
 
 /* ---------------- HOOKS ---------------- */
@@ -174,30 +179,45 @@ function Index() {
           <div className="absolute top-20 left-10 w-96 h-96 rounded-full blur-3xl" style={{background:"radial-gradient(circle,var(--olive),transparent 70%)"}}/>
           <div className="absolute bottom-0 right-10 w-[30rem] h-[30rem] rounded-full blur-3xl" style={{background:"radial-gradient(circle,var(--sand),transparent 70%)"}}/>
         </div>
-        <div className="mx-auto max-w-6xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-olive/30 bg-olive/5 text-olive text-xs font-medium mb-8 animate-fade-in">
-            <span className="w-2 h-2 rounded-full bg-olive animate-pulse"/>
-            Disponible para Proyectos · Barcelona
+        <div className="mx-auto max-w-6xl grid gap-10 md:gap-14 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+          <div className="min-w-0 order-2 md:order-1">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-olive/30 bg-olive/5 text-olive text-xs font-medium mb-8 animate-fade-in">
+              <span className="w-2 h-2 rounded-full bg-olive animate-pulse"/>
+              Disponible para Proyectos · Barcelona
+            </div>
+            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-extrabold leading-[0.95] tracking-tight animate-fade-in">
+              ¡Hola, soy<br/>
+              <span className="text-gradient-warm">Carolina Cuadros!</span>
+            </h1>
+            <p className="mt-8 max-w-3xl text-base md:text-xl text-muted-foreground leading-relaxed">
+              <span className="text-foreground font-medium">Marketing Digital & Comunicación Corporativa.</span> Conecto marcas
+              con audiencias a través de la estrategia digital B2B2C y optimizo el futuro de la comunicación integrando
+              <span className="text-sand"> Inteligencia Artificial</span>,
+              <span className="text-olive"> Automatización de Procesos (no-code)</span> y
+              <span className="text-sand"> Análisis de Datos</span>.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <a href="#impacto" className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-olive text-background font-medium hover:scale-[1.03] transition-transform">
+                Explorar mi trayectoria
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform"/>
+              </a>
+              <button onClick={() => setPrintMode(true)} className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-sand/40 text-sand hover:bg-sand hover:text-background transition-all font-medium">
+                <Printer className="w-4 h-4"/> Modo Ejecutivo (ATS / PDF)
+              </button>
+            </div>
           </div>
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-extrabold leading-[0.95] tracking-tight animate-fade-in">
-            ¡Hola, soy<br/>
-            <span className="text-gradient-warm">Carolina Cuadros!</span>
-          </h1>
-          <p className="mt-8 max-w-3xl text-base md:text-xl text-muted-foreground leading-relaxed">
-            <span className="text-foreground font-medium">Marketing Digital & Comunicación Corporativa.</span> Conecto marcas
-            con audiencias a través de la estrategia digital B2B2C y optimizo el futuro de la comunicación integrando
-            <span className="text-sand"> Inteligencia Artificial</span>,
-            <span className="text-olive"> Automatización de Procesos (no-code)</span> y
-            <span className="text-sand"> Análisis de Datos</span>.
-          </p>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <a href="#impacto" className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-olive text-background font-medium hover:scale-[1.03] transition-transform">
-              Explorar mi trayectoria
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform"/>
-            </a>
-            <button onClick={() => setPrintMode(true)} className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-sand/40 text-sand hover:bg-sand hover:text-background transition-all font-medium">
-              <Printer className="w-4 h-4"/> Modo Ejecutivo (ATS / PDF)
-            </button>
+          <div className="order-1 md:order-2 flex justify-center md:justify-end animate-fade-in">
+            <div className="relative">
+              <div className="absolute -inset-4 rounded-full blur-3xl opacity-40" style={{background:"radial-gradient(circle,var(--sand),transparent 70%)"}}/>
+              <div className="relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full overflow-hidden border border-sand/40 shadow-2xl bg-gradient-to-br from-muted/60 to-card/60 backdrop-blur">
+                <img
+                  src={carolinaPortrait.url}
+                  alt="Retrato de Carolina Cuadros Bustamante"
+                  className="w-full h-full object-cover object-top"
+                  loading="eager"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -240,21 +260,7 @@ function Index() {
           </div>
 
           <div className="mt-12 space-y-6">
-            <h3 className="text-xs uppercase tracking-widest text-olive mb-2">Proyectos Académicos · Inesdi Barcelona</h3>
-            <div className="grid gap-4 md:grid-cols-2">
-              {PROJECTS.filter(p => filter==="Todos" || p.cat===filter).map(p => (
-                <div key={p.title} className="glass-card rounded-2xl p-6 hover:-translate-y-1 transition-transform">
-                  <div className="flex items-start justify-between gap-4 mb-3">
-                    <h4 className="font-semibold text-base">{p.title}</h4>
-                    <span className="text-xs text-sand shrink-0">{p.year}</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
-                  <span className="mt-4 inline-block text-[10px] uppercase tracking-widest text-olive">{p.cat}</span>
-                </div>
-              ))}
-            </div>
-
-            <h3 className="text-xs uppercase tracking-widest text-olive mt-12 mb-2">Experiencia Profesional</h3>
+            <h3 className="text-xs uppercase tracking-widest text-olive mb-2">Experiencia Profesional</h3>
             <div className="relative space-y-6 border-l border-border/60 pl-6 md:pl-8">
               {EXPERIENCE.filter(e => filter==="Todos" || filter==="Marketing & Estrategia").map(e => (
                 <div key={e.company} className="relative glass-card rounded-2xl p-6 md:p-8 hover:-translate-y-1 transition-transform">
@@ -274,6 +280,20 @@ function Index() {
                 </div>
               ))}
             </div>
+
+            <h3 className="text-xs uppercase tracking-widest text-olive mt-12 mb-2">Proyectos Académicos · Inesdi Barcelona</h3>
+            <div className="grid gap-4 md:grid-cols-2">
+              {PROJECTS.filter(p => filter==="Todos" || p.cat===filter).map(p => (
+                <div key={p.title} className="glass-card rounded-2xl p-6 hover:-translate-y-1 transition-transform">
+                  <div className="flex items-start justify-between gap-4 mb-3">
+                    <h4 className="font-semibold text-base">{p.title}</h4>
+                    <span className="text-xs text-sand shrink-0">{p.year}</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
+                  <span className="mt-4 inline-block text-[10px] uppercase tracking-widest text-olive">{p.cat}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -282,30 +302,52 @@ function Index() {
       <section id="showroom" className="py-24 px-6">
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="05 · Multimedia" title="Showroom audiovisual" />
-          <p className="mt-4 text-muted-foreground max-w-2xl">Dirección, guion y edición de contenido — de reels de obra a podcasts corporativos.</p>
+          <p className="mt-4 text-muted-foreground max-w-2xl">Dirección, guion y edición — reels de obra, cobertura de ferias y fotografía on-site.</p>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {VIDEOS.map((v, i) => (
-              <button key={v.title} onClick={() => setOpenVideo(i)}
-                className="group text-left glass-card rounded-3xl overflow-hidden hover:-translate-y-2 transition-all">
-                <div className={`relative ${v.ratio} bg-gradient-to-br from-muted to-card overflow-hidden`}>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-sand/90 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Play className="w-6 h-6 text-background ml-1" fill="currentColor"/>
+            {VIDEOS.map((v, i) => {
+              const isPhoto = v.kind === "photo";
+              const clickable = isPhoto ? false : Boolean(v.embed);
+              return (
+                <button
+                  key={v.title}
+                  onClick={() => clickable && setOpenVideo(i)}
+                  disabled={!clickable}
+                  className={`group text-left glass-card rounded-3xl overflow-hidden transition-all ${clickable ? "hover:-translate-y-2 cursor-pointer" : "cursor-default"}`}
+                >
+                  <div className={`relative ${v.ratio} bg-gradient-to-br from-muted to-card overflow-hidden ${isPhoto ? "p-3" : ""}`}>
+                    {isPhoto ? (
+                      <div className="relative w-full h-full rounded-2xl border border-sand/30 bg-background/40 flex flex-col items-center justify-center overflow-hidden">
+                        <div className="absolute inset-3 border border-dashed border-sand/25 rounded-xl pointer-events-none"/>
+                        <Camera className="w-10 h-10 text-sand/80"/>
+                        <p className="mt-3 text-xs uppercase tracking-widest text-olive">Espacio reservado</p>
+                        <p className="mt-1 text-xs text-muted-foreground px-6 text-center">Foto de Expocamacol — próximamente</p>
+                      </div>
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className={`w-16 h-16 rounded-full bg-sand/90 flex items-center justify-center transition-transform ${clickable ? "group-hover:scale-110" : "opacity-60"}`}>
+                          <Play className="w-6 h-6 text-background ml-1" fill="currentColor"/>
+                        </div>
+                        {!v.embed && (
+                          <span className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-widest text-muted-foreground bg-background/70 px-3 py-1 rounded-full backdrop-blur">
+                            Reproductor listo · pega el enlace
+                          </span>
+                        )}
+                      </div>
+                    )}
+                    <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-background/80 backdrop-blur text-[10px] uppercase tracking-widest text-sand">{v.stat}</div>
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-background/85 backdrop-blur transition-opacity p-6 flex flex-col justify-end pointer-events-none">
+                      <span className="text-xs text-olive uppercase tracking-widest">{v.cat}</span>
+                      <p className="mt-1 text-sm text-sand">{v.role}</p>
+                      <p className="mt-3 text-xs text-muted-foreground">{v.goal}</p>
                     </div>
                   </div>
-                  <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-background/80 backdrop-blur text-[10px] uppercase tracking-widest text-sand">{v.stat}</div>
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-background/85 backdrop-blur transition-opacity p-6 flex flex-col justify-end">
-                    <span className="text-xs text-olive uppercase tracking-widest">{v.cat}</span>
-                    <p className="mt-1 text-sm text-sand">{v.role}</p>
-                    <p className="mt-3 text-xs text-muted-foreground">{v.goal}</p>
+                  <div className="p-5">
+                    <h4 className="font-semibold">{v.title}</h4>
+                    <p className="text-xs text-muted-foreground mt-1">{v.cat}</p>
                   </div>
-                </div>
-                <div className="p-5">
-                  <h4 className="font-semibold">{v.title}</h4>
-                  <p className="text-xs text-muted-foreground mt-1">{v.cat}</p>
-                </div>
-              </button>
-            ))}
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
