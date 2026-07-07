@@ -7,12 +7,11 @@ export const getInstagramThumbnail = createServerFn({ method: "GET" })
   )
   .handler(async ({ data }) => {
     const reelUrl = data.url.replace(/\/$/, "");
+    // Instagram serves the og:image tag only to simpler user-agents.
     const res = await fetch(`${reelUrl}/`, {
       headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-        Accept:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        "User-Agent": "Mozilla/5.0",
+        Accept: "text/html,*/*;q=0.8",
         "Accept-Language": "es-ES,es;q=0.9,en;q=0.8",
       },
     });
@@ -22,15 +21,24 @@ export const getInstagramThumbnail = createServerFn({ method: "GET" })
     }
 
     const html = await res.text();
-    const match = html.match(
+
+    // Try the standard og:image meta tag first.
+    const ogMatch = html.match(
       /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["'][^>]*>/i
     );
 
-    if (!match?.[1]) {
+    // Fallback: search for the first high-resolution image URL in embedded JSON.
+    const jsonMatch = html.match(
+      /"display_url"\s*:\s*"(https?:\\/\\/[^"]+)"/i
+    );
+
+    const rawUrl = ogMatch?.[1] ?? jsonMatch?.[1]?.replace(/\\\//g, "/");
+
+    if (!rawUrl) {
       throw new Error("No se encontró la imagen de portada");
     }
 
     return {
-      thumbnailUrl: match[1].replace(/&amp;/g, "&"),
+      thumbnailUrl: rawUrl.replace(/&amp;/g, "&"),
     };
   });
