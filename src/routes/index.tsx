@@ -442,21 +442,6 @@ function Index() {
         className="no-print fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 px-5 py-3 rounded-full bg-sand text-background font-medium shadow-2xl hover:scale-105 transition-transform">
         <Printer className="w-4 h-4"/> <span className="hidden sm:inline">Modo Ejecutivo ATS / Print</span>
       </button>
-
-      {openVideo !== null && (
-        <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-lg flex items-center justify-center p-4 animate-fade-in" onClick={()=>setOpenVideo(null)}>
-          <div className={`relative w-full ${VIDEOS[openVideo].ratio === "aspect-[9/16]" ? "max-w-md" : "max-w-4xl"}`} onClick={e=>e.stopPropagation()}>
-            <button onClick={()=>setOpenVideo(null)} className="absolute -top-12 right-0 text-sand hover:text-foreground"><X className="w-6 h-6"/></button>
-            <div className={`${VIDEOS[openVideo].ratio} rounded-2xl overflow-hidden border border-border bg-black`}>
-              <iframe src={VIDEOS[openVideo].embed} title={VIDEOS[openVideo].title} className="w-full h-full" allow="autoplay; encrypted-media" allowFullScreen/>
-            </div>
-            <div className="mt-4 flex items-baseline justify-between">
-              <h4 className="text-lg font-semibold">{VIDEOS[openVideo].title}</h4>
-              <span className="text-xs text-sand">{VIDEOS[openVideo].cat}</span>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
