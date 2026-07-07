@@ -5,6 +5,7 @@ import {
   TrendingUp, Bot, Calendar, GraduationCap, Download, Menu, Camera,
 } from "lucide-react";
 import carolinaPortrait from "@/assets/carolina-portrait.png.asset.json";
+import expocamacolPhoto from "@/assets/expocamacol-carolina.jpeg.asset.json";
 
 export const Route = createFileRoute("/")({ component: Index });
 
@@ -88,9 +89,9 @@ type MediaItem = {
   kind: "video" | "photo"; embed?: string; imageUrl?: string;
 };
 const VIDEOS: MediaItem[] = [
-  { kind: "video", title: "Registro de obra & Testimoniales", cat: "Instagram Reel", role: "Directora / Guion", goal: "Producción íntegra en obra con permisos y entrevistas a usuarios finales.", ratio: "aspect-[9/16]", stat: "+1.2M views", embed: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-  { kind: "photo", title: "Expocamacol — Feria Internacional", cat: "Fotografía On-Site", role: "Coordinadora de Stand & Marca", goal: "Gestión integral de stand y logística de marca en la feria internacional con más de 54k visitantes.", ratio: "aspect-[4/5]", stat: "+54k visitantes" },
-  { kind: "video", title: "Expoconstrucción — Cobertura Audiovisual", cat: "YouTube / Reel", role: "Dirección / Edición", goal: "Cobertura audiovisual de la feria Expoconstrucción: entrevistas, ambiente y activaciones de marca.", ratio: "aspect-video", stat: "Feria Sectorial", embed: "" },
+  { kind: "video", title: "Expoconstrucción — Cobertura Audiovisual", cat: "Instagram Reel", role: "Dirección / Edición", goal: "Cobertura audiovisual de la feria Expoconstrucción: entrevistas, ambiente y activaciones de marca.", ratio: "aspect-[9/16]", stat: "Feria Sectorial", embed: "https://www.instagram.com/reel/DKfoPYUR04L/embed/" },
+  { kind: "photo", title: "Expocamacol — Feria Internacional", cat: "Fotografía On-Site", role: "Coordinadora General de Stand & Marca", goal: "Coordiné todo el proceso de la feria: participación, cotizaciones, montaje y desmontaje de stand, logística, equipo comercial, merchandising y terceros en otros servicios.", ratio: "aspect-[4/5]", stat: "+54k visitantes", imageUrl: expocamacolPhoto.url },
+  { kind: "video", title: "Contenido versátil — Producto & Sector", cat: "Instagram Reel", role: "Guion / Grabación / Edición", goal: "Reel creado de principio a fin para demostrar que puedo producir contenido de cualquier tipo, producto y sector.", ratio: "aspect-[9/16]", stat: "Producción íntegra", embed: "https://www.instagram.com/reel/DLYoTS9xgYY/embed/" },
 ];
 
 /* ---------------- HOOKS ---------------- */
@@ -316,22 +317,20 @@ function Index() {
                 >
                   <div className={`relative ${v.ratio} bg-gradient-to-br from-muted to-card overflow-hidden ${isPhoto ? "p-3" : ""}`}>
                     {isPhoto ? (
-                      <div className="relative w-full h-full rounded-2xl border border-sand/30 bg-background/40 flex flex-col items-center justify-center overflow-hidden">
-                        <div className="absolute inset-3 border border-dashed border-sand/25 rounded-xl pointer-events-none"/>
-                        <Camera className="w-10 h-10 text-sand/80"/>
-                        <p className="mt-3 text-xs uppercase tracking-widest text-olive">Espacio reservado</p>
-                        <p className="mt-1 text-xs text-muted-foreground px-6 text-center">Foto de Expocamacol — próximamente</p>
+                      <div className="relative w-full h-full rounded-2xl border border-sand/30 overflow-hidden">
+                        <img
+                          src={v.imageUrl}
+                          alt={v.title}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"/>
                       </div>
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className={`w-16 h-16 rounded-full bg-sand/90 flex items-center justify-center transition-transform ${clickable ? "group-hover:scale-110" : "opacity-60"}`}>
                           <Play className="w-6 h-6 text-background ml-1" fill="currentColor"/>
                         </div>
-                        {!v.embed && (
-                          <span className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-widest text-muted-foreground bg-background/70 px-3 py-1 rounded-full backdrop-blur">
-                            Reproductor listo · pega el enlace
-                          </span>
-                        )}
                       </div>
                     )}
                     <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-background/80 backdrop-blur text-[10px] uppercase tracking-widest text-sand">{v.stat}</div>
@@ -397,9 +396,9 @@ function Index() {
 
       {openVideo !== null && (
         <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-lg flex items-center justify-center p-4 animate-fade-in" onClick={()=>setOpenVideo(null)}>
-          <div className="relative w-full max-w-4xl" onClick={e=>e.stopPropagation()}>
+          <div className={`relative w-full ${VIDEOS[openVideo].ratio === "aspect-[9/16]" ? "max-w-md" : "max-w-4xl"}`} onClick={e=>e.stopPropagation()}>
             <button onClick={()=>setOpenVideo(null)} className="absolute -top-12 right-0 text-sand hover:text-foreground"><X className="w-6 h-6"/></button>
-            <div className="aspect-video rounded-2xl overflow-hidden border border-border">
+            <div className={`${VIDEOS[openVideo].ratio} rounded-2xl overflow-hidden border border-border bg-black`}>
               <iframe src={VIDEOS[openVideo].embed} title={VIDEOS[openVideo].title} className="w-full h-full" allow="autoplay; encrypted-media" allowFullScreen/>
             </div>
             <div className="mt-4 flex items-baseline justify-between">
