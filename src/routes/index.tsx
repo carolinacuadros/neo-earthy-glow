@@ -5,8 +5,8 @@ import {
   Mail, Linkedin, Phone, MapPin, ArrowRight, Printer, Sparkles, X, Play,
   TrendingUp, Bot, Calendar, GraduationCap, Download, Menu, Camera, ExternalLink,
 } from "lucide-react";
-import carolinaPortrait from "@/assets/carolina-portrait.png.asset.json";
-import expocamacolPhoto from "@/assets/expocamacol-carolina.jpeg.asset.json";
+src="/carolina-portrait.png"
+src="/expocamacol.jpg"
 import { getInstagramThumbnail } from "@/lib/instagram.functions";
 
 export const Route = createFileRoute("/")({ component: Index });
