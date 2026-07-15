@@ -6,7 +6,11 @@ import {
   TrendingUp, Bot, Calendar, GraduationCap, Download, Menu, Camera, ExternalLink,
 } from "lucide-react";
 import { getInstagramThumbnail } from "@/lib/instagram.functions";
-<img src="/carolina-portrait.png" alt="Retrato" />
+<img 
+  src="/carolina-portrait.png" 
+  alt="Retrato" 
+  className="w-32 h-32 rounded-full border-2 border-[#D3C5B0] object-cover" 
+/>
 <img src="/expocamacol.jpg" alt="Expocamacol" />
 
 export const Route = createFileRoute("/")({ component: Index });
