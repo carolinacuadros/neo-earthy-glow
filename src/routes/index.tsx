@@ -444,6 +444,16 @@ function ContactForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("sending");
+
+    const isRealUrl = SHEET_API_URL.startsWith("https://");
+
+    if (!isRealUrl) {
+      // Modo simulación: espera 1.5s y muestra éxito para probar UX
+      await new Promise(r => setTimeout(r, 1500));
+      setStatus("success");
+      return;
+    }
+
     try {
       const res = await fetch(SHEET_API_URL, {
         method: "POST",
