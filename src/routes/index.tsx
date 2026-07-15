@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { getInstagramThumbnail } from "@/lib/instagram.functions";
 <img src="/expocamacol.jpg" alt="Expocamacol" />
-const carolinaPortrait = "/carolina-portrait.png";
+const carolinaRetrato = "/carolina-portrait.png";
 
 export const Route = createFileRoute("/")({ component: Index });
 
