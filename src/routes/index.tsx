@@ -413,23 +413,7 @@ function Index() {
               <div className="flex items-center gap-3 text-muted-foreground"><MapPin className="w-4 h-4 text-olive"/>Barcelona, España</div>
             </div>
           </div>
-          <form onSubmit={(e)=>{e.preventDefault(); alert("¡Gracias! Te responderé pronto.");}} className="glass-card rounded-3xl p-8 space-y-4">
-            <div>
-              <label className="text-xs text-muted-foreground">Nombre</label>
-              <input required className="mt-1 w-full bg-transparent border-b border-border py-2 outline-none focus:border-olive transition-colors"/>
-            </div>
-            <div>
-              <label className="text-xs text-muted-foreground">Email</label>
-              <input required type="email" className="mt-1 w-full bg-transparent border-b border-border py-2 outline-none focus:border-olive transition-colors"/>
-            </div>
-            <div>
-              <label className="text-xs text-muted-foreground">Mensaje</label>
-              <textarea required rows={4} className="mt-1 w-full bg-transparent border-b border-border py-2 outline-none focus:border-olive transition-colors resize-none"/>
-            </div>
-            <button className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-olive text-background font-medium hover:scale-[1.02] transition-transform">
-              Enviar mensaje <ArrowRight className="w-4 h-4"/>
-            </button>
-          </form>
+          <ContactForm />
         </div>
         <div className="mx-auto max-w-6xl mt-16 pt-8 border-t border-border/40 flex flex-wrap justify-between gap-4 text-xs text-muted-foreground">
           <span>© 2026 Carolina Cuadros Bustamante</span>
@@ -443,6 +427,94 @@ function Index() {
         <Printer className="w-4 h-4"/> <span className="hidden sm:inline">Modo Ejecutivo ATS / Print</span>
       </button>
     </div>
+  );
+}
+
+/* ---------------- CONTACT FORM ---------------- */
+
+const SHEET_API_URL = "TU_ENLACE_DE_SHEET_O_WEBHOOK_AQUÍ";
+
+function ContactForm() {
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [form, setForm] = useState({ nombre: "", email: "", asunto: "", empresa: "", mensaje: "" });
+
+  const update = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm(f => ({ ...f, [k]: e.target.value }));
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setStatus("sending");
+    try {
+      const res = await fetch(SHEET_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, timestamp: new Date().toISOString() }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setStatus("success");
+    } catch (err) {
+      console.error("Contact form error:", err);
+      setStatus("error");
+    }
+  }
+
+  if (status === "success") {
+    return (
+      <div className="glass-card rounded-3xl p-10 flex flex-col items-center justify-center text-center min-h-[380px] animate-in fade-in duration-700">
+        <div className="text-olive text-3xl mb-4">✦</div>
+        <p className="font-display text-2xl md:text-3xl font-bold text-gradient-warm leading-snug">
+          ¡Mensaje enviado con éxito!
+        </p>
+        <p className="mt-3 text-muted-foreground max-w-sm">
+          Me pondré en contacto contigo muy pronto.
+        </p>
+      </div>
+    );
+  }
+
+  const inputCls = "mt-1 w-full bg-transparent border-b border-border py-2 outline-none focus:border-olive transition-colors disabled:opacity-50";
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className={`glass-card rounded-3xl p-8 space-y-4 transition-opacity duration-500 ${status === "sending" ? "opacity-80" : "opacity-100"}`}
+    >
+      <div>
+        <label className="text-xs text-muted-foreground">Nombre</label>
+        <input required disabled={status === "sending"} value={form.nombre} onChange={update("nombre")} className={inputCls}/>
+      </div>
+      <div>
+        <label className="text-xs text-muted-foreground">Correo electrónico</label>
+        <input required type="email" disabled={status === "sending"} value={form.email} onChange={update("email")} className={inputCls}/>
+      </div>
+      <div>
+        <label className="text-xs text-muted-foreground">Asunto</label>
+        <input required disabled={status === "sending"} value={form.asunto} onChange={update("asunto")} className={inputCls}/>
+      </div>
+      <div>
+        <label className="text-xs text-muted-foreground">
+          Empresa / Organización <span className="text-muted-foreground/60">(Opcional)</span>
+        </label>
+        <input disabled={status === "sending"} value={form.empresa} onChange={update("empresa")} className={inputCls}/>
+      </div>
+      <div>
+        <label className="text-xs text-muted-foreground">Mensaje</label>
+        <textarea required rows={4} disabled={status === "sending"} value={form.mensaje} onChange={update("mensaje")} className={`${inputCls} resize-none`}/>
+      </div>
+      <button
+        type="submit"
+        disabled={status === "sending"}
+        className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-olive text-background font-medium hover:scale-[1.02] transition-transform disabled:opacity-70 disabled:hover:scale-100 disabled:cursor-not-allowed"
+      >
+        {status === "sending" ? "Enviando..." : <>Enviar mensaje <ArrowRight className="w-4 h-4"/></>}
+      </button>
+      {status === "error" && (
+        <div className="mt-2 text-sm text-center rounded-2xl border border-destructive/40 bg-destructive/10 text-destructive-foreground/90 px-4 py-3 animate-in fade-in duration-300">
+          Hubo un error al enviar el mensaje. Por favor, vuelve a intentarlo o escríbeme directamente a mi correo:{" "}
+          <a href="mailto:soycaro.990@gmail.com" className="underline text-sand">soycaro.990@gmail.com</a>
+        </div>
+      )}
+    </form>
   );
 }
 
