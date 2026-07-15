@@ -413,23 +413,7 @@ function Index() {
               <div className="flex items-center gap-3 text-muted-foreground"><MapPin className="w-4 h-4 text-olive"/>Barcelona, España</div>
             </div>
           </div>
-          <form onSubmit={(e)=>{e.preventDefault(); alert("¡Gracias! Te responderé pronto.");}} className="glass-card rounded-3xl p-8 space-y-4">
-            <div>
-              <label className="text-xs text-muted-foreground">Nombre</label>
-              <input required className="mt-1 w-full bg-transparent border-b border-border py-2 outline-none focus:border-olive transition-colors"/>
-            </div>
-            <div>
-              <label className="text-xs text-muted-foreground">Email</label>
-              <input required type="email" className="mt-1 w-full bg-transparent border-b border-border py-2 outline-none focus:border-olive transition-colors"/>
-            </div>
-            <div>
-              <label className="text-xs text-muted-foreground">Mensaje</label>
-              <textarea required rows={4} className="mt-1 w-full bg-transparent border-b border-border py-2 outline-none focus:border-olive transition-colors resize-none"/>
-            </div>
-            <button className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-olive text-background font-medium hover:scale-[1.02] transition-transform">
-              Enviar mensaje <ArrowRight className="w-4 h-4"/>
-            </button>
-          </form>
+          <ContactForm />
         </div>
         <div className="mx-auto max-w-6xl mt-16 pt-8 border-t border-border/40 flex flex-wrap justify-between gap-4 text-xs text-muted-foreground">
           <span>© 2026 Carolina Cuadros Bustamante</span>
